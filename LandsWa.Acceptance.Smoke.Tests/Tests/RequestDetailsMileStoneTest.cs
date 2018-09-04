@@ -46,6 +46,39 @@ namespace LandsWa.Acceptance.Smoke.Tests.Tests
 
             Assert.IsTrue(isLandRecordPageLoaded, "Land Record page has not loaded");
         }
+ 
+        [TestCase("LiamKnP", "Liam", "infy4321", User.Officer, "Benjamin")]
+        public void VerifyThatUserCanSubmitLgaRequest(string login, string name, string password, User user, string applicantName)
+        {
+            loginPage = new LoginPage(Driver);
+
+            var dashboard = loginPage.EnterUsername(login, user)
+                .EnterPassword(password)
+                .ClickLoginButton();
+
+            myDashboard = (MyDashboardPage)dashboard;
+            Assert.IsTrue(myDashboard.IsPageLoadComplete());
+            Assert.IsTrue(myDashboard.IsOfficerNameDisplayed(name));
+
+            myDashboard.ClickCreateNewCaseButon()
+                .SearchAnApplicantWithName(applicantName)
+                .SelectTheApplicantFromSearchResultWithName(applicantName)
+                .Continue()
+                .ClickContinueButton()
+                .SelectLgaRequestType()
+                .SelectCategoryFromDropdown("Lease")
+                .EnterDescription("LGA Request automation")
+                .ClickCLEFRequestCheckbox()
+                .ClickApplicantSignedCheckbox()
+                .EnterDateSigned()
+                .EnterPosition("Analyst")
+                .EnterDateReceived()
+                .UploadDocument("Document_1.txt")
+                .ClickContinueButton()
+                .IsPageLoaded();
+
+            Thread.Sleep(2000);
+        }
 
         [TestCase("WilmaFlin", "Wilma", "infy4321", User.Officer, "And")]
         public void VerifyOfficerCanCreateAnEvent(string login, string name, string password, User user, string applicantName)
