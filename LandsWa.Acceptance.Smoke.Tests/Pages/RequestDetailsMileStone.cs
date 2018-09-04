@@ -23,6 +23,7 @@ namespace LandsWa.Acceptance.Smoke.Tests.Pages
         protected string descriptionTextArea = "//textarea";
         protected string CLEFRequestCheckbox = "//label[text()=' Request received on a CLEF']";
         protected string signedCheckbox = "//label[text()='Signed by Applicant']";
+        protected string positionTextBox = "//label[text()='Position']/../../div[2]//input";
         protected string dateReceived = "//label[text()='Date Received']/../../div[2]//input";
         protected string dateSigned = "//label[text()='Date Signed']/../../div[2]//input";
         protected string uploadButton = "//button[text()='Upload']";
@@ -62,7 +63,13 @@ namespace LandsWa.Acceptance.Smoke.Tests.Pages
             return this;
         }
 
-        public RequestDetailsMileStone SelectEventRequestType()
+        public RequestDetailsMileStone SelectLgaRequestType()
+        {
+            GetElementByXpath(LgaType).Click();
+            return this;
+        }
+	 
+	public RequestDetailsMileStone SelectEventRequestType()
         {
             GetElementByXpath(eventRequestRequestType).Click();
             return this;
@@ -105,6 +112,12 @@ namespace LandsWa.Acceptance.Smoke.Tests.Pages
                     GetElementByXpath(EventType).Click();
                     break;
             }           
+            return this;
+        }
+
+        public RequestDetailsMileStone EnterPosition(string position)
+        {
+            GetElementByXpath(positionTextBox).SendKeys(position);
             return this;
         }
 
